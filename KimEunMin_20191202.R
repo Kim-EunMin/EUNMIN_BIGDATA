@@ -108,5 +108,4 @@ boxplot.stats(mtcars$disp)
 boxplot(mpg~gear,data=mtcars)
 #기어수 3일때 mpg가 낮은 편이다.
 #기어수 4일때 mpg가 가장 높다.
-#기어수 5일때 분포가 분포가 넓다. (가장 기어안에서도 mpg 값끼리 차이가 난다)
-
+#기어수 5일때 분포가 분포가 넓다. (같은 기어안에서도 mpg 값끼리 차이가 난다)
