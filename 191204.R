@@ -277,7 +277,7 @@ class1
 class2                        #split 함수와 비슷함
 
 
-#select() : 변수 추출
+#select() : 변수 추출 (열추출)
 df %>% select(math)
 df %>% select(science)
 df %>% select(class,math,science)
