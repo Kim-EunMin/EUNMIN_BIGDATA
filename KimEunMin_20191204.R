@@ -75,6 +75,7 @@ st2 <- st[complete.cases(st),]
 
 #(1) airquality를 AQ에 저장하시오.
 AQ <- airquality
+AQ
 head(AQ)
 
 #(2) AQ에서 열별로 NA의 개수를 출력하시오.
@@ -97,8 +98,13 @@ AQ[complete.cases(AQ),]
 #(5) AQ에서 NA를 NA가 속한 열의 평균값으로 치환하여 AQ2로 저장하고, AQ2의 내용을 출력하시오.      ###### 다시풀기
 
 
-
-
+for(i in 1:6){
+  for(j in 1:153){
+    if(is.na(AQ[j,i])==TRUE) {AQ[j,i] <- apply(AQ[complete.cases(AQ),],2,mean)[i]
+  }
+  } 
+}
+AQ
 
 
 
