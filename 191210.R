@@ -230,7 +230,7 @@ gmap+
 
 
 
-#단계 구분도   (treemap 처럼 색으로 구분)
+#단계 구분도   (treemap 처럼 색으로 구분)  , stage_diagram 해보기
 install.packages("ggiraphExtra")
 
 library(ggiraphExtra)
