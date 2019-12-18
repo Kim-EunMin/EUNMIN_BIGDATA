@@ -11,7 +11,7 @@
 # 1. Java 실행환경 구축  (JDK 설치했었으니 따로 하지 않는다), notion 연결해주자.
 # 2. 자료 수집 ( Text 자료 )
 #   2.1 text file 형태로 수집    (-메모장으로 열었을때 내용확인이 되면 text file 이다.)
-#   2.2 web scraping 을 이용하여 수집    (text file 없으면 직접 내가 웹페이지를 긁어온다)
+#   2.2 web scraping(웹크롤링) 을 이용하여 수집    (text file 없으면 직접 내가 웹페이지를 긁어온다)
 
 
 
