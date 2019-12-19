@@ -57,7 +57,7 @@ ggChoropleth( data = crime,
 #
 
 #***** 필요시 설치 **
-install.packages( "stringi" )
+install.packages( "stringi" )  #문자열처리 
 install.packages( "devtools")
 #******************** 
 
