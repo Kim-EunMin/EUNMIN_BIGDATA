@@ -54,11 +54,11 @@ ggChoropleth( data = crime,
 
 #
 # 대한민국 지도기반 단계구분도
-#
+# https://rpubs.com/cardiomoon/222145
 
 #***** 필요시 설치 **
-install.packages( "stringi" )  #문자열처리 
-install.packages( "devtools")
+install.packages( "stringi" )   #문자열처리에 쓰이는 패키지
+install.packages( "devtools")   #kormaps 패키지는 github 에 있다. github에 있는 패키지를 설치하려면 devtools 패키지의 install_github() 함수 사용해야한다.
 #******************** 
 
 #***** 필요시 설치 **
@@ -71,7 +71,12 @@ library( dplyr )
 library( stringi )
 
 library( ggiraphExtra )
-library( kormaps2014 )
+library( kormaps2014 )  
+#kormaps 패키지에는 kormap1, kormap2,kormap3 등의 데이터가 있다.
+#kormap1 : 2014년 한국행정지도(시도별)
+#kormap2 : 2014년 한국행정지도(시군구별)
+#kormap3 : 2014년 한국행정지도(읍면동별)
+
 library( moonBook2 )
 # 1. library load 후
 # 2. areacode <- changeCode( areacode ) 실행
@@ -79,29 +84,33 @@ library( moonBook2 )
 # 4. ggChoropleth()실행
 areacode <- changeCode( areacode )
 
-
+str(kormap)
 str( changeCode( areacode ) ) # kormaps2014 package의 changeCode()는
 str( changeCode( kormap1 ) )  # encoding을 cp949로 변환
-str( changeCode( korpop1 ) )
+str( changeCode( korpop1 ) )   
+#korpop1 은 2015년 센서스데이터(시도별)이다.
 
 str( changeCode( kormap2 ) )
 str( changeCode( korpop2 ) )
-
+#korpop2 은 2015년 센서스데이터(시군구별) 
 str( changeCode( kormap3 ) )
 str( changeCode( korpop3 ) )
-
+#korpop3 은 2015년 센서스데이터(읍면동)
 #theme_set( theme_gray( base_family = "NanumGothic" ) )
 
-# 2015년도 시도별 인구분포 단계구분도
+# 2015년도 시도별 인구분포 단계구분도 (ggplot2 이용)
 ggplot( korpop1, aes( map_id = code, fill = 총인구_명 ) ) +
   geom_map( map = kormap1, colour = "black", size = 0.1 )+
-  expand_limits( x = kormap1$long, y = kormap2$lat ) +
-  scale_fill_gradientn( colours = c( 'white', 'orange', 'red' ) ) +
-  ggtitle( "2015년도 시도별 인구분포도" ) +
-  coord_map()   
+  expand_limits( x = kormap1$long, y = kormap2$lat ) +                #경도, 위도를 범위로 지정
+  scale_fill_gradientn( colours = c( 'white', 'orange', 'red' ) ) +   #칠해지는 색깔
+  ggtitle( "2015년도 시도별 인구분포도" ) +  
+  coord_map()    #회전
 
 # ggChoropleth()이용 단계 구분도
 ggChoropleth( korpop2, kormap2, fillvar = "남자_명" )
+# ggChoropleth()이용 interactive plot
+ggChoropleth( korpop2, kormap2, fillvar="남자_명",
+              interactive = TRUE )
 
 ggChoropleth( korpop3, kormap3, fillvar= "주택_계_호" )
 
@@ -110,16 +119,14 @@ ggChoropleth( korpop3, kormap3, fillvar= "총인구_명",
               subarea = c( "전라", "광주" ) )
 
 
-# ggChoropleth()이용 interactive plot
-ggChoropleth( korpop2, kormap2, fillvar="남자_명",
-              interactive = TRUE )
 
 
 areacode <- changeCode( areacode )
 ggChoropleth( korpop3, kormap3, fillvar="남자_명",
               interactive = F,
-              subarea = c( "전라","광주" ),
-              tooltip = "행정구역별_읍면동" )
+              subarea = c( "전라","광주" ),     
+              tooltip = "행정구역별_읍면동" )     #tooltip으로 행정구역 코드가 아닌 행정구역명을 보이게한다.
+
 
 # 결핵신환 발생 데이터 tbc - 국가통계포털( kosis.kr ) 제공
 dim( tbc )
