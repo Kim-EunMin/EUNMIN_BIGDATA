@@ -1,0 +1,84 @@
+리눅스  : 윈도우 같은 것, 개발자들이 많이 쓴다. 
+
+oracle VM VirtualBox 
+jeju 70 시작
+아이디 비번 치고
+ifconfig 쳐서
+ip 주소 받기
+
+putty  들어가서 아이피주소랑, 아이디로그인하기
+(putty 에 입력) - new 누르고 이름 linux 설정
+
+
+ls 입력
+cd / 입력
+cd /etc  (cd= changedirectory)
+
+cd ~
+cd ..
+ls
+cd home  (home 에 들어감)
+cd ~
+
+vi res+탭키 누르기  (탭키는 자동입력)
+
+yum install maradb-server ( 마리아디비 설치)
+
+su  (superuser)
+mysql_secure_installation   
+
+((Enter current password for root (enter for none):
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+Enter current password for root (enter for none):
+Aborting!))   이런 화면이 떠서 
+ctrl+C 눌러서 나옴
+
+
+systemctl start mariadb
+systemctl status mariadb
+
+mysql_secure_installation  -> enter 치고 -> Set root password? [Y/n] 에 Y라고 입력
+비번 설정( 은민0401 )
+
+
+remove anonymous users? n
+disallow root login remotely? Y
+remove test database and acces to it? Y
+Reload privilege tables now? Y
+
+mysql -u root -p 하고 비번 치기
+
+show  databases  엔터치고 ; 입력
+
+use mysql 입력
+
+grant all privileges on *.* to 'root'@'%' identified by 'dmsals040;' with grant option;
+ (모든 권한을 주겠다 모든 데이터베이스의 테이블에게 /  root 에게 주겠다/ 
+  (어디서접근하더라도 권한을 준다. / 패스워드들어오면
+
+flush privileges;
+exit
+
+firewall-cmd --permanet --zone=public --add-port=3306/tcp
+firewall-cmd --list-all
+
+firewall-cmd --reload
+systemctl restart firewalld
+systemctl enable mariadb
+
+
+
+Heidsql 들어가서
+신규생성 : linux 
+호스트명에 아이피 입력하고
+비번치기
+
+
+파일 -> sql 파일 불러오기
+-> jeju.sql 불러온다.  ( 안해도 될듯 )
+
+anaconda prompt 들어가서 pip install pymysql
+--> jypyter 에 기록함
+
+
+
