@@ -1,0 +1,62 @@
+1. virtual box e다운받기  (윈도우상에서 가상 머신 만드는 기능을 한다 )
+download
+ (Windows hosts)
+
+2. VirtualBox 6.1.0 Oracle VM VirtualBox Extension Pack -> All supported platforms  도 다운
+ (맨 마지막에 체크하는 것 빼고 설치)
+(화면 제어가 잘 됨)  
+
+3. centos 다운받기
+위에 3개중 아무거나 
+
+(이게 서버용으로 제공되는 리눅스다)
+
+
+
+
+6. 선생님 메일 (비번1234)  ->putty : 원격으로 리눅스를 제어하기위한 것
+
+7. 전부 다운받고 HeidiSQL  downlaod -> Installer, 32/64 bit combined
+(마리아db 를 원격으로 작업하기 위해 필요한 것이다 )
+
+
+
+Oracle VM VirtualBox 들어가서 새로만들기 
+이름 : 제주/ 버전 :other Windows
+메모리 : 2048
+지금 새 가상 하드 디스크 만들기 체크  
+VDI 누르기
+동적할당
+30GB
+
+설정-> 저장소 -> 아이콘 광학드라이브 추가 누르기 
+-> 다운로드 받은 centos 넣기 
+비어있음은 삭제하기 
+
+설정 - > 시스템 -> 가속 -> 하드웨어 가상화 체크 지우기 
+
+다시시작 del 
+
+
+제주 삭제하고
+새로만들기 
+이름 : 제주1. 버전 other windows 6 4비트
+지금 새 가상 하드 디스크 만들기 체크  
+VDI 누르기
+동적할당
+30GB
+
+설정-> 저장소 -> 아이콘 광학드라이브 추가 누르기 
+-> 다운로드 받은 centos 넣기 
+비어있음은 삭제하기 
+확인 누르기 
+
+시작 누른다. 
+시동디스크로 centos 선택
+화면에서 enter 치키
+개ㅐ
+
+
+
+
+
