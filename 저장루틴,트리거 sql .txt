@@ -1,0 +1,120 @@
+1. 이름 : student_before_insert (트리거)
+   테이블 : student
+   이벤트 : before insert
+
+
+
+BEGIN  # old : 입력된 값, NEw 는 새롭게 만들어질 데이터 
+	set NEW.total = NEW.kor + NEW.mat + NEW.eng;
+	set NEW.average = round(NEW.total/3,2);
+	# set 은 변수의 값ㅇ르 대입할때 쓰는 것이고, begin ~ end 는 블록이다.
+	# grade 라는 변수도 있었다.
+	IF NEW.average >= 90 then set New.grade="A";
+	ELSEIF NEW.average >= 80 THEN SET NEW.grade="B";
+	ELSEIF NEW.average >= 70 THEN SET NEW.grade="C";
+	ELSEIF NEW.average >= 60 THEN SET NEW.grade="D";
+	ELSE SET NEW.grade="F";
+	END IF; # end 로 꼭 닫아줘야한다. 
+END
+
+
+2. 이름 : student_before_insert2(트리거)
+   테이블 student
+   이벤트 : before insert
+
+
+BEGIN  # old : 입력된 값, NEw 는 새롭게 만들어질 데이터 
+	set NEW.total = NEW.kor + NEW.mat + NEW.eng;
+	set NEW.average = round(NEW.total/3,2);
+	# set 은 변수의 값ㅇ르 대입할때 쓰는 것이고, begin ~ end 는 블록이다.
+	# grade 라는 변수도 있었다.
+	IF NEW.average >= 90 then set New.grade="A";
+	ELSEIF NEW.average >= 80 THEN SET NEW.grade="B";
+	ELSEIF NEW.average >= 70 THEN SET NEW.grade="C";
+	ELSEIF NEW.average >= 60 THEN SET NEW.grade="D";
+	ELSE SET NEW.grade="F";
+	END IF; # end 로 꼭 닫아줘야한다. 
+END
+
+
+
+3. student_insert  ( 저장루틴)
+매개변수 지정하기(사진) 
+
+BEGIN
+   	DECLARE exit handler FOR SQLEXCEPTION  #error 날 것을 대비해서 이런문장추가해준다. 
+	   BEGIN
+	     ROLLBACK;  # 수정하거나 변화주면 취소시키고 RESULT 에 -1 값을 넘겨주라. 
+	     SET RESULT = -1;  # RESULT 값이 -1 이면 ERROR 라고 보면 된다. 
+	   END;
+	START TRANSACTION;  
+	   INSERT INTO student(name,kor,mat,eng,schoolcode)  
+	   VALUE(name, kor, mat, eng, schoolcode);
+	COMMIT;  # ERROR 가 없으면 COMMIT 들어간다.
+	SET RESULT = 0;  # ERROR 가 없으면 0 이다. (-1이면 실패, 0이면 성공)
+END
+
+
+4. student_select ( 저장루틴)
+매개변수 지정 x
+BEGIN
+	select * from student;
+END
+
+
+5. student_sum  ( 저장루틴)
+
+BEGIN  # 매개변수 따로 안만든다. 아래는 임시테이블을 만들어서 데이터를 집어넣는것이다. 
+	DROP TABLE IF EXISTS sungjuk_hab; # 성적합이라는 테이블이 있으면  TABLE을  없애라 ,새로생성하려고 없애는 것 ( 많이 쓰는 구문임) 
+	create table sungjuk_hab(korhab float, mathab float, enghab float) AS  #korhab , mathab enghab 3개 만들거다
+		select sum(kor) as korhab, SUM(mat) as mathab,  #만들기 만드는건데 kor, mat , eng 에서 만든다. 
+		sum(eng) as enghab from student; #합이 들어가는 테이블 만들었음
+
+	Insert into sungjuk_hab (korhab, mathab, enghab)  #select 되는 것들값을 sungjuk_hab 에  집어넣어라.
+		select round(avg(kor),2), round(avg(mat),2) , round(avg(eng),2) from student;  #<
+		select * from sungjuk_hab; #insert into 하고 select 할때는 value 안써도 된다. 
+END
+
+
+6. student_updateone  ( 저장루틴)
+매개변수 x 
+BEGIN
+	DECLARE _done INT DEFAULT FALSE; # 무한루프의 종료조건을 위해서 들어간다. 
+	DECLARE name_var VARCHAR(20);   #  하나의 데이터를 처리하기 위한 변수다. 
+	DECLARE kor_var INT;  
+	DECLARE mat_var INT;
+	DECLARE eng_var INT;
+	 # 가져온데이터 실시간으로 변경한다ㅣ. 그냥가져오는게 아니라 계산해서 변경.(update 와는 조금 다름)
+	DECLARE CURSOR_STUDENT CURSOR FOR SELECT name, kor, mat, eng  # 커서를 선언한다. 
+		FROM student;# student 에 있는 데이터를 모두 가져옴. # 커서 : 데이터를 가져와서 가르키는 위치 
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET _done = TRUE;  # continue handler 가 not found 하게 되면 true 줘라
+	OPEN CURSOR_STUDENT;
+	REPEAT # 데이터를 뽑아오기 위해서 fetch 한다. (데이터를 하나씩 가져오는것이 fetch 다 ) 
+		FETCH CURSOR_STUDENT INTO name_var, kor_var, mat_var, eng_var;
+		IF NOT _done THEN  # 여기서는 거짓을 부정했다. 참이되면 실행한다. 
+			UPDATE student SET kor = kor_var+1, mat=mat_var+1, eng=eng_var+1 #1점씩 추가한다. 
+				WHERE name = name_var;   
+			SET _done = FALSE;
+		END IF;
+	UNTIL _done  # 종료조건은 이친구가 true 가 될때까지!  종료전까지 무한루프로 돈다. ㅇ언제 참이되냐? not found 
+	END REPEAT;
+	CLOSE CURSOR_STUDENT;        # cursor, fetch 이해ㅣ하자. 
+END
+
+
+7. student_update_name ( 저장루틴)
+매개변수 (사진)
+ BEGIN
+	Declare cnt int default 0;  # cnt 라는 변수를 만들고 0 으로 출력한다는 뜻 (cnt=0)
+	select count(*) into cnt from student where name =name1;
+	
+	if cnt >0 then 
+		 
+			update student set name =  name2 where name = name1;
+			set result = 0;
+		
+		
+	else set result = -1;
+	end if;
+
+END
