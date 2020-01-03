@@ -1,0 +1,126 @@
+1. goods 라는 테이블을 만든다.
+name 변수 길이를 20으로 지정, NULL 허용 하지 않게한다. 
+code 변수  오른쪽 마우스버튼 -> 새 인덱스 생성-> 
+primary 키 지정 ( = 중복되지 않는키, 외부에서 참조가 가능한 키)
+
+
+2. student 테이블
+
+
+
+3. student2 테이블 생성
+school code 는 char 10 
+varchar 는 변할 수 있지만 char 는 fix 된 것
+
+3. school 
+code : primary key, 기본값없음
+no 는 key 로 준다. 중복이되지않게 한다.
+auto_increment 는 자동으로 숫자가 증가한다. 
+
+만들고 나서 바로 
+
+4. 
+student 테이블 생성
+ 
+9개 변수 만들고
+student 란 테이블의 schoolcode 는 school에 있는 school code 를 이용하고 싶다.
+school을 참조해서 넣고싶다.  ->외래키 활용하기 ( 테이블이 연결된다)
+원하는 변수클릭하고 외래키 들어가서 추가하기.
+
+
+열(student 의 schoolcode) , 참조테이블(school 을 참조할거다) , 외래열(school 의 schoolcode 를 가져올것이다), 
+
+* create 코드 직접 쳐보면서 익히자
+(CONSTRAINT `FK__school` FOREIGN KEY (`schoolcode`) REFERENCES `school` (`school code`)
+
+
+* 집가져가기 : 오른쪽버튼 -> 데이터베이스를 SQL 내보내기 -> 데이터베이스 생성, 테이블 생성, 데이터 
+
+5. 
+student 에 오른쪽 마우스 버튼 -> 새로생성->  트리커(자동으로 계산할때 쓴다)
+begin end 가 블록문이다.
+
+BEGIN  # old : 입력된 값, NEw 는 새롭게 만들어질 데이터 
+	set NEW.total = NEW.kor + NEW.mat + NEW.eng;
+	set NEW.average = round(NEW.total/3,2);
+	# set 은 변수의 값ㅇ르 대입할때 쓰는 것이고, begin ~ end 는 블록이다.
+	# grade 라는 변수도 있었다.
+	if NEW.average >= 90 then set New.grade="A";
+	ELSEIF NEW.average >= 80 THEN SET NEW.grade="B";
+	ELSEIF NEW.average >= 70 THEN SET NEW.grade="C";
+	ELSEIF NEW.average >= 60 THEN SET NEW.grade="D";
+	ELSE SET NEW.grade="F";
+	END IF;
+END
+라고 트리거문에 입력한다. (total 이런건 트리거문에 써놔서 알아서 계산해준다)
+
+
+student 가 school 을 참조하므로 school 의 데이터는 필수다.
+school 데이터를 치자 (쿼리로 이동) 
+
+그 다음 student 데이터를 채워준다. 
+
+
+ㅁ
+# 만약 문제 1번 처럼 수정이 될 경우
+student 오른쪽 마우스버튼 트리커 새로생성해서  
+이벤트를 before, update 로 설정하면 됨.
+
+
+
+#
+
+저장루틴 쓴다. student 마우스오른쪽버튼 새로생성 들어가서 저장루틴 클릭
+함수화해서 쓰는 것이다. 
+student_select 라는 이름의 저장루틴에 출력하라고 썻기때문에
+call student_select 하면 계속  출력이 된다. 
+
+student_insert 저장루틴만들기
+(매개변수 6개추가) ,데이터유형도 바꿨음. , 
+
+데이터베이스에 들어오는건 대부분 웹서버이다. 
+웹서버를 insert 할때 error 가 날수도 있어서 result 는 out 으로 한다.
+
+schoolcode가 error 나올수도 있고 등등 error 가 날수도있으니 결과값을 out 으로 돌려준다.
+
+
+BEGIN
+   	DECLARE exit handler FOR SQLEXCEPTION  #error 날 것을 대비해서 이런문장추가해준다. 
+	   BEGIN
+	     ROLLBACK;  # 수정하거나 변화주면 취소시키고 RESULT 에 -1 값을 넘겨주라. 
+	     SET RESULT = -1;  # RESULT 값이 -1 이면 ERROR 라고 보면 된다. 
+	   END;
+	START TRANSACTION;  
+	   INSERT INTO student(name,kor,mat,eng,schoocode)  
+	   VALUE(name, kor, mat, eng, schoolcode);
+	COMMIT;  # ERROR 가 없으면 COMMIT 들어간다.
+	SET RESULT = 0;  # ERROR 가 없으면 0 이다. (-1이면 실패, 0이면 성공)
+END
+
+
+
+
+student_updateone 이라는 저장루틴 만들기(모든데이터에 1점씩 추가)
+BEGIN
+	DECLARE _done INT DEFAULT FALSE; # 무한루프의 종료조건을 위해서 들어간다. 
+	DECLARE name_var VARCHAR(20);   #  하나의 데이터를 처리하기 위한 변수다. 
+	DECLARE kor_var INT;  
+	DECLARE mat_var INT;
+	DECLARE eng_var INT;
+	 # 가져온데이터 실시간으로 변경한다ㅣ. 그냥가져오는게 아니라 계산해서 변경.(update 와는 조금 다름)
+	DECLARE CURSOR_STUDENT CURSOR FOR SELECT name, kor, mat, eng  # 커서를 선언한다. 
+		FROM student;# student 에 있는 데이터를 모두 가져옴. # 커서 : 데이터를 가져와서 가르키는 위치 
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET _done = TRUE;  # continue handler 가 not found 하게 되면 true 줘라
+	OPEN CURSOR_STUDENT;
+	REPEAT # 데이터를 뽑아오기 위해서 fetch 한다. (데이터를 하나씩 가져오는것이 fetch 다 ) 
+		FETCH CURSOR_STUDENT INTO name_var, kor_var, mat_var, eng_var;
+		IF NOT _done THEN  # 여기서는 거짓을 부정했다. 참이되면 실행한다. 
+			UPDATE student SET kor = kor_var+1, mat=mat_var+1, eng=eng_var+1 #1점씩 추가한다. 
+				WHERE name = name_var;   
+			SET _done = FALSE;
+		END IF;
+	UNTIL _done  # 종료조건은 이친구가 true 가 될때까지!  종료전까지 무한루프로 돈다. ㅇ언제 참이되냐? not found 
+	END REPEAT;
+	CLOSE CURSOR_STUDENT;        # cursor, fetch 이해ㅣ하자. 
+END
+
