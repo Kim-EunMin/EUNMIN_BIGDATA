@@ -1,0 +1,23 @@
+R + 모델링
+
+1. 정보기반 : Decision tree  , Random Forest (이게 너무 많은 모델을 만든다 -> ) Ada boost ,gradien boost -> XG boost 
+	--> 정보기반 학습은 one-hot encoding 해줘야한다. (범주인 경우 무조건 해야한다)
+
+2. 확률기반 : Naive Bayes
+3. 유사도기반 : K-means(타켓을 결정하기 위해 하는 것이다) , KNN 
+4. 오차기반  : ANN(정규화해줘야한다 ! )  , SVM (support vector machine ) 
+
+
+
+
+데이터 받았다하면 -> Decision tree 는 무조건 해봐야한다. -> 데이터 시각화하는데 좋다 (데이터의 구성을 한눈에 보는게 좋다 )
+    XG boost 도 꼭 해보기 ( 어떤 변수를 선택하는 것이 종속변수에 영향을 미치는지 확인 가능 ) 
+
+
+데이터를 봤을때 어떤 모델이 적합한지 판단하기 어렵다 -> 위에 있는 것들을 해봐서 accuracy 가 제일 높은 것을 찾아내야한다. 
+
+
+
+1. 목적을 정한다. 뭘 알아보고싶은지
+2. 어떤 데이터가 필요한지 
+3. feature engineering    ( one hot encoding 이나  정규화같은 것 ) 
