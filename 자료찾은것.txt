@@ -1,0 +1,19 @@
+http://www.index.go.kr/potal/main/EachPage.do?mmenu=7&smenu=2
+
+http://www.bokjiro.go.kr/nwel/welfareinfo/sociguastat/retrieveSociGuaStatList.do : 복지시설
+
+http://www.mogef.go.kr/  : 여성가족부
+
+http://www.mogef.go.kr/as/asl/as_asl_s001.do  : 여성가족부 -베이비시터 검색
+
+
+http://www.mogef.go.kr/nw/enw/nw_enw_s001d.do?mid=mda700
+
+
+공동육아나눔터   
+https://www.gov.kr/portal/service/serviceInfo/533000000054
+http://www.bokjiro.go.kr/welInfo/retrieveWelInfoDetail.do?searchIntClId=&searchCnDivCd=&welInfSno=65&searchGb=&searchText=&searchSidoCode=&searchCggCode=&searchCtgId=&pageGb=&pageUnit=10&pageIndex=1&domainName=&cardListTypeCd=&welSrvTypeCd=&age=&hirkQestId=&qestCric=&qestDsr=&searchCondition=&searchKeyword=&intClId=&region1=&region2=&occupation=&occupation4=&pref=&career=&education=&regDate=&searchGbn=&key1=65&stsfCn=
+https://www.familynet.or.kr/index.jsp
+https://m.post.naver.com/viewer/postView.nhn?volumeNo=17030498&memberNo=3265970&vType=VERTICAL
+http://www.familynet.or.kr/introduce/status/list.do : 공통육아나눔터 지원 현황
+
