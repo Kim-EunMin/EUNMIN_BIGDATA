@@ -1,0 +1,68 @@
+결측치 제거  0
+
+이상치제거 0 
+
+minmax 표준화( 모든 특성의 범위를 같도록 만들어주기 위해서 실시 )  0
+
+1. 그냥 아무것도 삭제안하고 했음(동현오빠) -
+1.종속변수와 관련없는 변수삭제 -> 모델링(은민)
+2. feature selection(RFE ) -> 모델링   (서윤언니) 
+---> 결과 : 과소적합 ( test>train mse ) 
+
+
+3.  decisiontree -> 출산율에 영향끼치는 변수 뽑아내기  (변수중요도 ) 
+           
+
+         
+## 할일,svr 그래프, 원래 그래프 비교 
+          
+
+ 
+
+(
+점진적 pca 해보기 
+
+
+
+
+훈련, 테스트 4:6, 5:5 로 나눠보기  
+
+
+
+
+##
+모르는것 
+pca 할때 몇개로 줄일지 정해야하는데,, pipe 쓰면, pca하고 모델정하고 파라미터 정해주는
+y 값도 표준화 -> inverse transform ???
+lightgbm?? 
+
+
+
+# 메모
+# 분류만 score 이 나온다/ regressor ->mse 이런것보기 ( 분류 일때 평가하는 기준, 예측일때 평가하는 기준은 다르다)
+
+# 다중공선
+https://datascienceschool.net/view-notebook/36176e580d124612a376cf29872cd2f0/
+https://lovetoken.github.io/r/2017/04/16/vif.html
+
+# RFE 코드 ( 서윤언니 ) 01/22 일 사진 
+ 
+#예측모델의 평가 :  원래모델의 y 값, 예측한 y 값의 상관계수를 확인한다 (높을수록 좋다 ) ,mse, rmse (낮은것이 좋다 ) 
+
+# 과소적합/ 과대적합 
+# https://yongku.tistory.com/entry/딥러닝과-머신러닝-과적합Overfitting-과적합Overfitting-확인해보기
+#https://datapedia.tistory.com/10
+# https://m.blog.naver.com/PostView.nhn?blogId=qbxlvnf11&logNo=221324122821&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F
+# https://hoony-gunputer.tistory.com/m/139?category=742600
+
+
+# pipe : 규진언니 사진
+
+#pca : 282 page그림확인 -> 줄이더라도 설명력이 85% 는 되어야한다. 
+( 차원축소해서 만들어진 좋은 변수 +  원데이터(좀 설명력이 좋은것만 모아둔것)  을 합하면 설명력이 좋은 데이터 프레임이 된다 (선생님은 아니라고 하심 찾아보자 ) 
+## 동현오빠pca (1/22일사진) 사진보면 : 처음에 32개에서 16개 줄였다
+그러고 16개에서 8개로 줄였다 첫번쨰 사진보면 변수  3,4개정도 가지고있어야 설명력이 95%인것을 확인할 수 있다
+그리고 두번쨰 사진보면 점이 pca 변수 순서대로 찍힌것인데 4개이후로는 거의 수평이다-> 설명력이 별로 없다는 것이니 굳이 가지고있을 필요가 없다 -> 제거하자 -> pca 로 새로생성한 변수 4가지 정도만 이용하자
+#python, 지도시각화 / jason  
+
+# gridsearchcv : 모델정하고 그 모델의 파라미터를 정하는 것 
