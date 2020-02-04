@@ -1,0 +1,23 @@
+모바일 사용자와 인공지능을 통한
+AI 데이터 수집 및 레이블링 플랫폼
+
+# automl : 알아서 알고리즘 뽑아줌
+
+# 학습데이터 생산 과정
+# step 1  다양하고 많은 양의 데이터 수집
+# step 2  수집된 데이터 모두 가공
+# step 3  가공된 데이터 모두 품질 검사 
+
+# 
+
+# json어쩌고저쩌고 (전봇대 부품을 찾아내는 AI)
+# 딥러닝 bounding box -> 전봇대 부분이 박살난것을 인지해낸다.  
+# 한국정보화진흥원 : 인공지능학습용 데이터 구축사업
+# LG CNS : 한국어 기계독해 전문 & 답변 생성 -> korQuad 2.0 구축
+# naver : 
+
+# 캐시미션 : 안드로이드
+
+http://www.aihub.or.kr/notice
+http://research.sualab.com/introduction/2017/11/29/image-recognition-overview-2.html
+https://brunch.co.kr/@itschloe1/23
